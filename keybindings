@@ -52,10 +52,10 @@ hc keybind $Both-space split explode
 
 # resizing frames
 step=0.02
-hc keybind $Mod-Control-Left        resize  left    -$step
-hc keybind $Mod-Control-Down        resize  down    -$step
-hc keybind $Mod-Control-Up          resize  up      -$step
-hc keybind $Mod-Control-Right       resize  right   -$step
+hc keybind $Mod-Control-Left        resize  left    +$step
+hc keybind $Mod-Control-Down        resize  down    +$step
+hc keybind $Mod-Control-Up          resize  up      +$step
+hc keybind $Mod-Control-Right       resize  right   +$step
 
 hc keybind $Mod-Control-Shift-Left  resize  left    -$step
 hc keybind $Mod-Control-Shift-Down  resize  down    -$step
@@ -63,10 +63,13 @@ hc keybind $Mod-Control-Shift-Up    resize  up      -$step
 hc keybind $Mod-Control-Shift-Right resize  right   -$step
 
 # changing window placement
-hc keybind $Mod-j set_layout vertical
-hc keybind $Mod-k set_layout horizontal
-hc keybind $Mod-l set_layout max
-hc keybind $Mod 
+hc keybind $Mod-Control-v   set_layout  vertical
+hc keybind $Mod-Control-h   set_layout  horizontal
+hc keybind $Mod-Control-m   set_layout  max
+hc keybind $Mod-Control-g   set_layout  grid
+hc keybind $Mod-Control-Tab         cycle_layout
+hc keybind $Mod-Control-Shift-Tab   cycle_layout -1
+
 # cycle through stuff
 hc keybind $Mod-Tab         cycle
 hc keybind $Mod-Shift-Tab   cycle -1
