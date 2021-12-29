@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/zsh
 
 # this is a simple config for herbstluftwm
 
@@ -6,81 +6,37 @@ hc() {
     herbstclient $@
 }
 
-source ~/.zsh.d/sourced/dracula
+source_if_exists() {
+    if [ -f $1 ] ; then
+        source $1
+    else
+        if [ ! -f ~/herbstluftwm.log ] ; then
+            touch ~/herbstluftwm.log
+        fi
+        echo "Unable to locate file: $1 \n" >> ~/herbstluftwm.log
+    fi
 
-hc emit_hook reload
+}
 
+# clear the log
+echo "" > ~/herbstluftwm.log
+
+# source the dracula script to comfortably manage colors
+source_if_exists ~/.zsh.d/sourced/dracula
+
+# set the wallpaper
 nitrogen --set-scaled ~/Pictures/wallpaper
-
-# remove all existing keybindings
-hc keyunbind --all
-
-# keybindings
-Alt=Mod1    # Use alt as the main modifier
-Win=Mod4   # Use the super key as the main modifier
-Mod=$Win
-
-if [ $Mod = $Win ] ; then
-    NotMod=$Alt
-else
-    NotMod=$Win
-fi
-
-Both=$Mod-$NotMod
 
 # set the keyboard layout
 setxkbmap -layout de -variant nodeadkeys
 
+# keybindings
+source_if_exists ~/.hlwm/keybindings
 
-hc keybind $Mod-Shift-q quit
-hc keybind $Mod-Shift-r reload
-hc keybind $Mod-BackSpace close
-hc keybind $Mod-Return spawn alacritty
+# theme
+source_if_exists ~/.hlwm/theme
 
-# basic movement in tiling and floating mode
-# focusing clients
-hc keybind $Mod-Left  focus left
-hc keybind $Mod-Down  focus down
-hc keybind $Mod-Up    focus up
-hc keybind $Mod-Right focus right
 
-# moving clients in tiling and floating mode
-
-hc keybind $Mod-Shift-Left  shift left
-hc keybind $Mod-Shift-Down  shift down
-hc keybind $Mod-Shift-Up    shift up
-hc keybind $Mod-Shift-Right shift right
-
-# splitting frames
-# create an empty frame at the specified direction
-hc keybind $Both-Left           split   left    0.5
-hc keybind $Both-Down           split   bottom  0.5
-hc keybind $Both-Up             split   top     0.5
-hc keybind $Both-Right          split   right   0.5
-
-hc keybind $Both-Shift-Left     split   left    0.7
-hc keybind $Both-Shift-Down     split   bottom  0.3
-hc keybind $Both-Shift-Up       split   top     0.3
-hc keybind $Both-Shift-Right    split   right   0.7
-
-hc keybind $Both-Control-Left   split   left    0.3
-hc keybind $Both-Control-Down   split   bottom  0.7
-hc keybind $Both-Control-Up     split   top     0.7
-hc keybind $Both-Control-Right  split   right   0.3
-
-# let the current frame explode into subframes
-hc keybind $Both-space split explode
-
-# resizing frames and floating clients
-resizestep=0.02
-hc keybind $Mod-Control-Left        resize  left    +$resizestep
-hc keybind $Mod-Control-Shift-Left  resize  left    -$resizestep
-hc keybind $Mod-Control-Down        resize  down    +$resizestep
-hc keybind $Mod-Control-Shift-Down  resize  down    -$resizestep  
-hc keybind $Mod-Control-Up          resize  up      +$resizestep
-hc keybind $Mod-Control-Shift-Up    resize  up      -$resizestep
-hc keybind $Mod-Control-Right       resize  right   +$resizestep
-hc keybind $Mod-Control-Shift-Right resize  right   -$resizestep
 
 # tags
 #tag_names=( {1..9} )
@@ -97,43 +53,9 @@ hc keybind $Mod-Control-Shift-Right resize  right   -$resizestep
 #done
 
 # cycle through tags
-hc keybind $Mod-period use_index +1 --skip-visible
-hc keybind $Mod-comma  use_index -1 --skip-visible
+# hc keybind $Mod-period use_index +1 --skip-visible
+# hc keybind $Mod-comma  use_index -1 --skip-visible
 
-# layouting
-hc keybind $Mod-r remove
-hc keybind $Mod-s floating toggle
-hc keybind $Mod-f fullscreen toggle
-hc keybind $Mod-Shift-f set_attr clients.focus.floating toggle
-hc keybind $Mod-Shift-m set_attr clients.focus.minimized true
-hc keybind $Mod-Control-m jumpto last-minimized
-hc keybind $Mod-p pseudotile toggle
-# The following cycles through the available layouts within a frame, but skips
-# layouts, if the layout change wouldn't affect the actual window positions.
-# I.e. if there are two windows within a frame, the grid layout is skipped.
-hc keybind $Mod-space                                                           \
-            or , and . compare tags.focus.curframe_wcount = 2                   \
-                     . cycle_layout +1 vertical horizontal max vertical grid    \
-               , cycle_layout +1
-
-# mouse
-hc mouseunbind --all
-hc mousebind $Mod-Button1 move
-hc mousebind $Mod-Button2 zoom
-hc mousebind $Mod-Button3 resize
-
-# focus
-hc keybind $NotMod-BackSpace   cycle_monitor
-hc keybind $Mod-Tab         cycle_all +1
-hc keybind $Mod-Shift-Tab   cycle_all -1
-hc keybind $Mod-c cycle
-hc keybind $Mod-i jumpto urgent
-
-# theme
-
-if [ -f ~/.config/herbstluftwm/theme ] ; then
-    source ~/.config/herbstluftwm/theme
-fi
 
 # rules
 hc unrule -F
