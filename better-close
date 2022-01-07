@@ -1,0 +1,17 @@
+#!/usr/bin/zsh
+#
+# this script closes windows or empty frames
+# example usage:
+# herbstclient spawn path/to/script/better-close
+#
+
+hc() { herbstclient $@ }
+
+if [ $(hc get_attr tags.focus.curframe_wcount) -eq 0 ] ; then
+    hc remove
+    echo removed
+else 
+    hc close
+    echo closed
+fi
+
