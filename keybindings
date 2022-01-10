@@ -1,5 +1,7 @@
 #!/usr/bin/zsh
 
+source ~/.config/herbstluftwm/hl-essentials
+
 # set some variables
 Alt=Mod1
 Both=Mod1-Mod4
@@ -13,20 +15,16 @@ hc keybind $Mod-Shift-q quit
 hc keybind $Mod-Shift-r reload
 hc keybind $Mod-Return spawn rofi -show run
 hc keybind $Mod-Shift-Return spawn alacritty
+hc keybind $Mod-BackSpace close_or_remove
 hc keybind $Mod-r remove
+if exists close-all ; then
+    hc keybind $Mod-Delete spawn $HL_PATH/close-all
+fi
 hc keybind $Mod-f fullscreen toggle
 hc keybind $Mod-s floating toggle
 hc keybind $Mod-Shift-s set_attr clients.focus.floating toggle
 hc keybind $Mod-m set_attr clients.focus.minimized true
 hc keybind $Mod-Shift-m jumpto last-minimized
-
-# closing stuff
-if [ -f $HOME/.config/herbstluftwm/better-close ] ; then
-    hc keybind $Mod-BackSpace spawn $HOME/.config/herbstluftwm/better-close
-else
-    hc keybind $Mod-BackSpace close
-fi
-
 
 # movement
 hc keybind $Mod-Left    focus   left

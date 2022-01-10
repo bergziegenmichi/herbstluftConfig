@@ -1,25 +1,11 @@
 #!/usr/bin/zsh
 
-# this is a simple config for herbstluftwm
+# essential functions for configuring hlwm.
+# if this file doesn't exist there are going 
+# to be a lot of problems. if it doesnt exist
+# the autostart script will exit
 
-hc() {
-    herbstclient $@
-}
-
-source_if_exists() {
-    if [ -f $1 ] ; then
-        source $1
-    else
-        if [ ! -f ~/herbstluftwm.log ] ; then
-            touch ~/herbstluftwm.log
-        fi
-        echo "Unable to locate file: $1 \n" >> ~/herbstluftwm.log
-    fi
-
-}
-
-# clear the log
-echo "" > ~/herbstluftwm.log
+source ~/.config/herbstluftwm/hl-essentials || exit
 
 # source the dracula script to comfortably manage colors
 source_if_exists ~/.zsh.d/sourced/dracula
@@ -31,10 +17,10 @@ nitrogen --set-scaled ~/Pictures/wallpaper
 setxkbmap -layout de -variant nodeadkeys
 
 # keybindings
-source_if_exists ~/.hlwm/keybindings
+execute_if_exists ~/.hlwm/keybindings
 
 # theme
-source_if_exists ~/.hlwm/theme
+execute_if_exists ~/.hlwm/theme
 
 
 

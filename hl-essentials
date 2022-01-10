@@ -1,0 +1,40 @@
+#!/usr/bin/zsh
+# 
+# essential functions for configuring hlwm
+#
+
+HL_PATH=~/.config/herbstluftwm/
+
+hc() { herbstclient $@ }
+
+echo "" > ~/herbstluftwm.log  # clear the log
+
+hl-log() {
+    touch "~/herbstluftwm.log"
+    echo "$@\n" >> "~/herbstluftwm.log"
+}
+
+exists() {
+    if [ -f $HL_PATH/$1 ] ; then
+        true
+    else
+        false
+    fi
+}
+
+source_if_exists() {
+    if [ -f $1 ] ; then
+        source $1
+    else
+        hl-log "Unable to source file: $1"
+    fi
+}
+
+execute_if_exists() {
+    if [ -f $1 -a -x $1 ] ; then
+        $1
+    else
+        herbstlog "Unable to execute file: $1"
+    fi
+}
+
