@@ -1,0 +1,18 @@
+#!/usr/bin/zsh
+
+source ~/.config/herbstluftwm/hl-essentials
+screen_res=$(cat $SCREEN_RES_PATH)
+
+if [ $(cat $SCREEN_RES_PATH) = "1920x1080" ] ; then
+    hc set_monitors 1920x1045+0+35
+    echo "set to 1920x1045"
+    echo "1920x1045" > $SCREEN_RES_PATH
+else
+    hc set_monitors 1920x1080+0+0
+    echo "set to 1920x1080"
+    echo "1920x1080" > $SCREEN_RES_PATH
+fi
+
+
+echo $screen_res
+

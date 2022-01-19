@@ -21,6 +21,9 @@ if exists close-all ; then
     hc keybind $Mod-Delete spawn $HL_PATH/close-all
 fi
 hc keybind $Mod-f fullscreen toggle
+if exists change-screen-resolution ; then
+    hc keybind $Mod-Shift-f spawn $HL_PATH/change-screen-resolution
+fi
 hc keybind $Mod-s floating toggle
 hc keybind $Mod-Shift-s set_attr clients.focus.floating toggle
 hc keybind $Mod-m set_attr clients.focus.minimized true

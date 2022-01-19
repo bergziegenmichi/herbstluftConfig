@@ -4,6 +4,7 @@
 #
 
 HL_PATH=~/.config/herbstluftwm/
+SCREEN_RES_PATH=~/.config/herbstluftwm/files/screen_res
 
 hc() { herbstclient $@ }
 
